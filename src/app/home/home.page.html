@@ -1,0 +1,46 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Open Trivia
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Open Trivia</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <!-- Content  -->
+  <div>
+    <!-- Field pseudo -->
+    <div class="block-field">
+      <label class="full-width">Pseudo</label>
+      <input class="full-width" type="text" [(ngModel)]="pseudonyme" />
+    </div>
+    <!-- Field difficulté -->
+    <div class="block-field">
+      <label class="full-width">Difficulté</label>
+      <select class="full-width">
+        <option *ngFor="let level of levels">{{ level }}</option>
+      </select>
+    </div>
+    <!-- Field difficulté -->
+    <div class="block-field">
+      <input type="checkbox" [(ngModel)]="remember" />
+      <label class="full-width" style="padding-left: 0.5rem;">Sauvegarder mes informations</label>
+    </div>
+    <!-- Erreur  -->
+    <div class="block-field" *ngIf="haveErrors">
+      <p class="error-text">Veuillez rentrer un pseudo de 3 caractères minimum</p>
+    </div>
+
+    <!-- Submit -->
+    <div class="block-field">
+      <button class="submit-btn" (click)="onSubmit()">Commencer</button>
+    </div>
+
+  </div>
+</ion-content>
