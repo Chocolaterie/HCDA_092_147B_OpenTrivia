@@ -13,8 +13,8 @@
     </ion-toolbar>
   </ion-header>
 
-  <!-- Content  -->
-  <div>
+  <!-- Bloc 1 : STATE => Step 1  -->
+  <div *ngIf="isState('step_1')">
     <!-- Field pseudo -->
     <div class="block-field">
       <label class="full-width">Pseudo</label>
@@ -27,7 +27,7 @@
         <option *ngFor="let level of levels">{{ level }}</option>
       </select>
     </div>
-    <!-- Field difficulté -->
+    <!-- Field se souvenir -->
     <div class="block-field">
       <input type="checkbox" [(ngModel)]="remember" />
       <label class="full-width" style="padding-left: 0.5rem;">Sauvegarder mes informations</label>
@@ -42,5 +42,22 @@
       <button class="submit-btn" (click)="onSubmit()">Commencer</button>
     </div>
 
+  </div>
+
+  <!-- Bloc 2 :: STATE => Step 2  -->
+  <div *ngIf="isState('step_2')">
+    <p class="full-width">Bienvenue {{ pseudonyme }}</p>
+    <p class="full-width">De quelle couleur est le cheval blanc d'henri IV ?</p>
+
+    <div>
+      <div *ngFor="let reply of replies" style="padding: 0.2rem; width: 50%; display:inline-block">
+        <button class="reply-btn" (click)="onReply()">{{ reply }}</button>
+      </div>
+    </div>
+
+    <!-- Question suivante -->
+    <div class="block-field" *ngIf="displayNextQuestionBtn">
+      <button class="submit-btn">Question Suivante</button>
+    </div>
   </div>
 </ion-content>
