@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+import { AlertController, IonicModule, ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -16,18 +16,16 @@ export class HomePage {
   public pseudonyme = "";
   public levels = ["easy", "medium", "hard"]
   public remember = false;
-  // pour teste si erreur
-  public haveErrors = false;
 
   // les réponses possibles
   public replies = ["Blanc", "Noir", "Marron", "Je ne sais pas"];
 
   // Etat
-  public state = "step_1";
+  public state = "step_2";
 
   public displayNextQuestionBtn = false;
 
-  constructor() { }
+  constructor(private alertCtrl: AlertController, private toastCtrl: ToastController) { }
 
   /**
    * Changer d'etat
@@ -49,11 +47,19 @@ export class HomePage {
   /**
    * Lors du clic du bouton du formulaire de l'etape 1
    */
-  public onSubmit() {
+  public async onSubmit() {
     // Contrôle de surface
     // Si erreur
     if (this.pseudonyme.length < 4) {
-      this.haveErrors = true;
+      // dialog box
+      const alert = await this.alertCtrl.create({
+        header: "Information Manquante",
+        message: "Veuillez rentrer un pseudo de 3 caractères minimum"
+        , buttons: ["OK"]
+      });
+
+      alert.present();
+
     }
     else {
       // je change d'etat (step_2)
@@ -64,8 +70,16 @@ export class HomePage {
   /**
    * Lors du clic d'un bouton réponse
    */
-  public onReply() {
+  public async onReply(reply: String) {
     // Afficher le button suivant
     this.displayNextQuestionBtn = true;
+    //  Afficher le toast
+    const toast = await this.toastCtrl.create({
+      message: `Votre réponse est : ${reply}`,
+      duration: 1000
+    });
+
+    toast.present();
+
   }
 }

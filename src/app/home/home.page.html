@@ -30,10 +30,6 @@
       <ion-item>
         <ion-toggle [checked]="remember">Sauvegarder mes informations</ion-toggle>
       </ion-item>
-      <!-- Erreur  -->
-      <div class="block-field" *ngIf="haveErrors">
-        <ion-label color="danger">Veuillez rentrer un pseudo de 3 caractères minimum</ion-label>
-      </div>
     </ion-list>
 
     <!-- Submit -->
@@ -51,7 +47,7 @@
     <!-- Les 4 boutons réponse  -->
     <div>
       <div *ngFor="let reply of replies" style="padding: 0.2rem; width: 50%; display:inline-block">
-        <ion-button expand="full" (click)="onReply()">{{ reply }}</ion-button>
+        <ion-button expand="full" (click)="onReply(reply)">{{ reply }}</ion-button>
       </div>
     </div>
 
