@@ -15,49 +15,49 @@
 
   <!-- Bloc 1 : STATE => Step 1  -->
   <div *ngIf="isState('step_1')">
-    <!-- Field pseudo -->
-    <div class="block-field">
-      <label class="full-width">Pseudo</label>
-      <input class="full-width" type="text" [(ngModel)]="pseudonyme" />
-    </div>
-    <!-- Field difficulté -->
-    <div class="block-field">
-      <label class="full-width">Difficulté</label>
-      <select class="full-width">
-        <option *ngFor="let level of levels">{{ level }}</option>
-      </select>
-    </div>
-    <!-- Field se souvenir -->
-    <div class="block-field">
-      <input type="checkbox" [(ngModel)]="remember" />
-      <label class="full-width" style="padding-left: 0.5rem;">Sauvegarder mes informations</label>
-    </div>
-    <!-- Erreur  -->
-    <div class="block-field" *ngIf="haveErrors">
-      <p class="error-text">Veuillez rentrer un pseudo de 3 caractères minimum</p>
-    </div>
+    <ion-list>
+      <!-- Field pseudo -->
+      <ion-item>
+        <ion-input label="Pseudo" label-placement="stacked" type="text" [(ngModel)]="pseudonyme" />
+      </ion-item>
+      <!-- Field difficulté -->
+      <ion-item>
+        <ion-select label="Difficulté" label-placement="stacked">
+          <ion-select-option *ngFor="let level of levels">{{ level }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <!-- Field se souvenir -->
+      <ion-item>
+        <ion-toggle [checked]="remember">Sauvegarder mes informations</ion-toggle>
+      </ion-item>
+      <!-- Erreur  -->
+      <div class="block-field" *ngIf="haveErrors">
+        <ion-label color="danger">Veuillez rentrer un pseudo de 3 caractères minimum</ion-label>
+      </div>
+    </ion-list>
 
     <!-- Submit -->
     <div class="block-field">
-      <button class="submit-btn" (click)="onSubmit()">Commencer</button>
+      <ion-button expand="full" (click)="onSubmit()">Commencer</ion-button>
     </div>
 
   </div>
 
   <!-- Bloc 2 :: STATE => Step 2  -->
   <div *ngIf="isState('step_2')">
-    <p class="full-width">Bienvenue {{ pseudonyme }}</p>
-    <p class="full-width">De quelle couleur est le cheval blanc d'henri IV ?</p>
+    <p><ion-text color="primary">Bienvenue {{ pseudonyme }}</ion-text></p>
+    <div class="ion-text-center"><ion-text color="dark" style="font-size: 0.7em;">De quelle couleur est le cheval blanc d'henri IV ?</ion-text></div>
 
+    <!-- Les 4 boutons réponse  -->
     <div>
       <div *ngFor="let reply of replies" style="padding: 0.2rem; width: 50%; display:inline-block">
-        <button class="reply-btn" (click)="onReply()">{{ reply }}</button>
+        <ion-button expand="full" (click)="onReply()">{{ reply }}</ion-button>
       </div>
     </div>
 
     <!-- Question suivante -->
     <div class="block-field" *ngIf="displayNextQuestionBtn">
-      <button class="submit-btn">Question Suivante</button>
+      <ion-button expand="full">Question Suivante</ion-button>
     </div>
   </div>
 </ion-content>
