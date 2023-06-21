@@ -34,7 +34,7 @@
 
     <!-- Submit -->
     <div class="block-field">
-      <ion-button expand="full" (click)="onSubmit()">Commencer</ion-button>
+      <ion-button expand="full" (click)="tryStartGame()">Commencer</ion-button>
     </div>
 
   </div>
@@ -42,18 +42,23 @@
   <!-- Bloc 2 :: STATE => Step 2  -->
   <div *ngIf="isState('step_2')">
     <p><ion-text color="primary">Bienvenue {{ pseudonyme }}</ion-text></p>
-    <div class="ion-text-center"><ion-text color="dark" style="font-size: 0.7em;">De quelle couleur est le cheval blanc d'henri IV ?</ion-text></div>
+    <div class="ion-text-center"><ion-text color="dark" style="font-size: 0.7em;">{{ currentQuestion!.question }}</ion-text></div>
 
     <!-- Les 4 boutons réponse  -->
     <div>
-      <div *ngFor="let reply of replies" style="padding: 0.2rem; width: 50%; display:inline-block">
-        <ion-button expand="full" (click)="onReply(reply)">{{ reply }}</ion-button>
+      <div *ngFor="let reply of currentQuestion!.getAnwsers()" style="padding: 0.2rem; width: 50%; display:inline-block">
+        <ion-button expand="full" (click)="onReply(reply)" class="opentrivia-reply-btn" [color]="getReplyColor(reply)">{{ reply.label }}</ion-button>
       </div>
     </div>
 
     <!-- Question suivante -->
     <div class="block-field" *ngIf="displayNextQuestionBtn">
-      <ion-button expand="full">Question Suivante</ion-button>
+      <ion-button expand="full" (click)="nextQuestion()">Question Suivante</ion-button>
     </div>
+
+      <!-- Rejouer -->
+      <div class="block-field" *ngIf="displayReplayBtn">
+        <ion-button expand="full" (click)="restart()">Rejouer</ion-button>
+      </div>
   </div>
 </ion-content>
