@@ -42,23 +42,24 @@
   <!-- Bloc 2 :: STATE => Step 2  -->
   <div *ngIf="isState('step_2')">
     <p><ion-text color="primary">Bienvenue {{ pseudonyme }}</ion-text></p>
-    <div class="ion-text-center"><ion-text color="dark" style="font-size: 0.7em;">{{ currentQuestion!.question }}</ion-text></div>
+    <div class="ion-text-center"><ion-text color="dark" style="font-size: 0.7em;">{{ questionGame!.currentQuestion!.question }}</ion-text></div>
 
-    <!-- Les 4 boutons réponse  -->
+    <!-- Les boutons réponse  -->
     <div>
-      <div *ngFor="let reply of currentQuestion!.getAnwsers()" style="padding: 0.2rem; width: 50%; display:inline-block">
+      <div *ngFor="let reply of questionGame!.currentQuestion!.getAnwsers()" style="padding: 0.2rem; width: 50%; display:inline-block">
         <ion-button expand="full" (click)="onReply(reply)" class="opentrivia-reply-btn" [color]="getReplyColor(reply)">{{ reply.label }}</ion-button>
       </div>
     </div>
 
     <!-- Question suivante -->
-    <div class="block-field" *ngIf="displayNextQuestionBtn">
+    <div class="block-field" *ngIf="questionGame!.isState(GameState.REPLIED)">
       <ion-button expand="full" (click)="nextQuestion()">Question Suivante</ion-button>
     </div>
 
       <!-- Rejouer -->
-      <div class="block-field" *ngIf="displayReplayBtn">
+      <div class="block-field" *ngIf="questionGame!.isState(GameState.RESULT)">
         <ion-button expand="full" (click)="restart()">Rejouer</ion-button>
+        <p>Votre score est : {{  questionGame!.score }}</p>
       </div>
   </div>
 </ion-content>
