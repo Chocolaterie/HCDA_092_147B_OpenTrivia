@@ -1,0 +1,40 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>game</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">game</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <!-- Bloc 2  -->
+  <div *ngIf="questionGame!.currentQuestion">
+    <p><ion-text color="primary">Bienvenue {{ pseudonyme }}</ion-text></p>
+    <div class="ion-text-center"><ion-text color="dark" style="font-size: 0.7em;">
+      {{questionGame!.currentQuestion!.question }}</ion-text></div>
+
+    <!-- Les boutons réponse  -->
+    <div>
+      <div *ngFor="let reply of questionGame!.currentQuestion!.getAnwsers()"
+        style="padding: 0.2rem; width: 50%; display:inline-block">
+        <ion-button expand="full" (click)="onReply(reply)" class="opentrivia-reply-btn"
+          [color]="getReplyColor(reply)">{{ reply.label }}</ion-button>
+      </div>
+    </div>
+
+    <!-- Question suivante -->
+    <div class="block-field" *ngIf="questionGame!.isState(GameState.REPLIED)">
+      <ion-button expand="full" (click)="nextQuestion()">Question Suivante</ion-button>
+    </div>
+
+    <!-- Rejouer -->
+    <div class="block-field" *ngIf="questionGame!.isState(GameState.RESULT)">
+      <ion-button expand="full" (click)="restart()">Rejouer</ion-button>
+      <p>Votre score est : {{ questionGame!.score }}</p>
+    </div>
+  </div>
+</ion-content>
