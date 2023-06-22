@@ -1,32 +1,37 @@
 import { Injectable } from '@angular/core';
 import { Anwser } from '../models/anwser';
 import { Question } from '../models/question';
+import { HttpClient } from '@angular/common/http';
+import { Observable, map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class QuestionService {
 
-  public questions = [
-    // 1er
-    new Question("Entertainment: Japanese Anime & Manga", "multiple",
-      "easy", "In \"Fairy Tail\", what is the nickname of Natsu Dragneel?",
-      new Anwser("The Salamander"), [new Anwser("The Dragon Slayer"), new Anwser("The Dragon"), new Anwser("The Demon")]),
-    // 2eme
-    new Question("Entertainment: Video Games", "boolean",
-      "medium", "\"Return to Castle Wolfenstein\"; was the only game of the Wolfenstein series where you don't play as William \"B.J.\" Blazkowicz",
-      new Anwser("False"), [new Anwser("True")]),
-
-  ]
-  constructor() { }
+  constructor(private httpClient: HttpClient) { }
 
   /**
    * Récupérer les questions
    * @returns 
    */
-  public getQuestions() : Promise<Array<Question>>{
-    return new Promise((resolve, reject) => {
-      resolve(this.questions);
-    })
+  public getQuestions() : Observable<any>{
+    return this.httpClient.get("https://opentdb.com/api.php?amount=2").
+    pipe(
+      map((data : any) => {
+        // transform chaque question
+        let newData = data.results.map((question : any) => {
+          // Dans chaque question on transform la réponse correcte
+          question.correct_answer = new Anwser(question.correct_answer);
+          
+          // les réponses incorrectes
+          question.incorrect_answers = question.incorrect_answers.map((anwser : any) => { return new Anwser(anwser); });
+        
+          return new Question(question.category, question.type, question.difficulty, question.question, question.correct_answer, question.incorrect_answers);
+        });
+
+        return newData;
+      })
+    );
   }
 }

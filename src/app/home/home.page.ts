@@ -29,7 +29,6 @@ export class HomePage {
   public questionGame? : QuestionGame;
 
   constructor(private questionService: QuestionService, private alertCtrl: AlertController, private toastCtrl: ToastController) {
-
     // J'instancie le jeu
     this.questionGame = new QuestionGame();
   }
@@ -47,14 +46,16 @@ export class HomePage {
 
   public startGame() {
     // Appeler le service pour récupérer les quesstions
-    this.questionService.getQuestions().then((data) => {
+    this.questionService.getQuestions().subscribe({
+      next: (jsonData) => {
+        console.log(jsonData);
+        // Mettre a jour les questions
+        this.questionGame?.startGame(jsonData);
 
-      // Mettre a jour les questions
-      this.questionGame?.startGame(data);
-
-      // je change d'etat (step_2)
-      this.changeState("step_2");
-    })
+        // je change d'etat (step_2)
+        this.changeState("step_2");
+      },
+    });
   }
 
   /**
